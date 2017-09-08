@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+#SBATCH --job-name=test_msprime
+#SBATCH --output=msprime_log_%j.log
+#
+#SBATCH --time=0:05:00
+#SBATCH --nodes=1
+#SBATCH --tasks=1
+#SBATCH --mem-per-cpu=2000
+#SBATCH --mail-type=END         # Type of email notification- BEGIN,END,FAIL,ALL
+#SBATCH --mail-user=ashander@ucla.edu # Email to which notifications will be sent
+
+module use /projects/apps
+module load python3 simuPOP bright/7.3 hdf5_18
+
+module load msprime/0.4.0 && python3 -c "import msprime"
+
+module load msprime/0.4.1.dev && python3 -c "import msprime"
+#cd /projects/apps/popgen/msprime
+
+# if you uncomment below, most tests will run
+# at the cost of installing some stuff to your $HOME/.local
+# some tests still fail, but I think these are related to
+# msprime being installed and not tested as imported from file
+# pip3 install --user -r requirements/development.txt
+#module load msprime/0.4.0 && git checkout 0.4.0 && nosetests
+
+#module load msprime/0.4.1.dev && git checkout master && nosetests
+
+

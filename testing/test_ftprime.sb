@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+#SBATCH --job-name=test_ftprime
+#SBATCH --output=ftprime_log_%j.log
+#
+#SBATCH --time=0:05:00
+#SBATCH --nodes=1
+#SBATCH --tasks=1
+#SBATCH --mem-per-cpu=2000
+#SBATCH --mail-type=END         # Type of email notification- BEGIN,END,FAIL,ALL
+#SBATCH --mail-user=ashander@ucla.edu # Email to which notifications will be sent
+
+module use /projects/apps
+
+cd /projects/apps/
+module load python3 simuPOP bright/7.3 hdf5_18 msprime/0.4.1.dev pytest ftprime/0.0.4
+python3 -c "import ftprime"
+#( cd popgen/ftprime && git checkout 0.0.4-rev ) && srun /usr/bin/time -v pytest popgen/ftprime/tests
+ml
+
+module load python3 simuPOP bright/7.3 hdf5_18 msprime/0.4.1.dev pytest ftprime/0.0.5
+python3 -c "import ftprime"
+#( cd popgen/ftprime && git checkout master ) && srun /usr/bin/time -v pytest popgen/ftprime/tests
+ml
